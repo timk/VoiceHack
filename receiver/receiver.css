@@ -1,0 +1,22 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: #000000;
+}
+div#frame {
+	width: 1200px;
+	height: 670px;
+	margin: 30px auto;
+}
+iframe {
+	width: 1200px;
+	height: 670px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid silver;
+}

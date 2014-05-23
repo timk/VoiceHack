@@ -3,131 +3,14 @@
 <head>
 	<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 	<style type="text/css">
-	html, body {
-		margin: 0;
-		padding: 0;
-	}
-	body {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-	div#title {
-		margin: 30px auto;
-		font-size: 1.2em;
-		font-weight: bold;
-		color: #FFFFFF;
-		text-align: center;
-	}
-	div#frame {
-		width: 1200px;
-		height: 580px;
-		margin: 0px auto;
-	}
-	iframe {
-		width: 1200px;
-		height: 580px;
-		margin: 0;
-		padding: 0;
-		border: 1px solid silver;
-	}
+
 	</style>
 	<title>Cast Hello Text</title>
 	<script type="text/javascript" src="http://www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-	<script type="text/javascript">
-	window.onload = function() {
-		cast.receiver.logger.setLevelValue(0);
-		window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-		console.log('Starting Receiver Manager');
-	
-		// handler for the 'ready' event
-		castReceiverManager.onReady = function(event) {
-			console.log('Received Ready event: ' + JSON.stringify(event.data));
-			window.castReceiverManager.setApplicationState("Application status is ready...");
-		};
-	
-		// handler for 'senderconnected' event
-		castReceiverManager.onSenderConnected = function(event) {
-			console.log('Received Sender Connected event: ' + event.data);
-			console.log(window.castReceiverManager.getSender(event.data).userAgent);
-		};
-	
-		// handler for 'senderdisconnected' event
-		castReceiverManager.onSenderDisconnected = function(event) {
-			console.log('Received Sender Disconnected event: ' + event.data);
-			if (window.castReceiverManager.getSenders().length == 0) {
-				window.close();
-			}
-		};
-	
-		// handler for 'systemvolumechanged' event
-		castReceiverManager.onSystemVolumeChanged = function(event) {
-			console.log('Received System Volume Changed event: '
-					+ event.data['level'] + ' ' + event.data['muted']);
-		};
-	
-		// create a CastMessageBus to handle messages for a custom namespace
-		window.messageBus = window.castReceiverManager
-				.getCastMessageBus('urn:x-cast:com.google.cast.sample.helloworld');
-	
-		// handler for the CastMessageBus message event
-		window.messageBus.onMessage = function(event) {
-			console.log('Message [' + event.senderId + ']: ' + event.data);
-	
-			// display the message from the sender
-			handleMessage(JSON.parse(event.data));
-	
-			// inform all senders on the CastMessageBus of the incoming message event
-			// sender message listener will be invoked
-			window.messageBus.send(event.senderId, event.data);
-		}
-	
-		// initialize the CastReceiverManager with an application status message
-		window.castReceiverManager.start({
-			statusText : "Application is starting"
-		});
-		
-		console.log('Receiver Manager started');
-	};
-	
-	// utility function to display the text message in the input field
-	function handleMessage(message) {
-		console.log(message);
-		console.log("Message: " + message["key"]);
-	
-		if (message.key == "search") {
-			searchGoogle(message.value);
-		} else {
-			displayText(message.value);
-		}
-	};
-	
-	function searchGoogle(text) {
-		//window.location.href = 'http://www.google.com/search?site=&tbm=isch&q=' + text;
-		//var url = "https://www.googleapis.com/customsearch/v1?q="+text+"&searchType=image&key=";
-		var url = "http://googlecustomsearch.appspot.com/elementv2/results-only_url_v2.html?q=" + text + "&webSearchResultSetSize=4";
-		var display = document.getElementById("display");
-		display.setAttribute("src", url);
-	};
-	
-	function displayText(text) {
-		//console.log(text);
-		//document.getElementById("message").innerHTML = text;
-		//window.castReceiverManager.setApplicationState(text);
-	};
-	</script>
-	<script>
-(function() {
-  var cx = '123:456'; // Insert your own Custom Search engine ID here
-  var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
-  gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
-      '//www.google.com/cse/cse.js?cx=' + cx;
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
-})();
-</script>
+	<script type="text/javascript" src="receiver.js"></script>
+	<link rel="stylesheet" href="receiver.js" />
 </head>
 <body>
-	<div id="title">Talk to me :)</div>
 	<div id="frame"><iframe id="display"></iframe></div>
 </body>
 </html>
