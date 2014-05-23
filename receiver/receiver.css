@@ -2,21 +2,54 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
+
 body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	background-color: #000000;
 }
-div#frame {
-	width: 1200px;
-	height: 670px;
-	margin: 30px auto;
+
+#title {
+	margin: 10px 0;
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #FCFCFC;
+	text-align: center;
 }
-iframe {
-	width: 1200px;
-	height: 670px;
+
+#query {
+	margin: 0 0 10px 0;
+	color: #FCFCFC;
+	text-align: center;
+}
+
+#frame {
+	width: 1240px;
+	height: 650px;
+	margin: 30px auto 0 auto;
+	overflow: auto;
+	background-color: #FFFFFF;
+}
+.list_title a {
+	font-weight: bold;
+}
+.list_title span {
+	color: #666666;
+}
+.list_snippet {
+	padding-bottom: 12px;
+	font-size: 0.9em;
+}
+
+#display {
+	width: 1210px;
+	height: 620px;
 	margin: 0;
+}
+.iframe {
 	padding: 0;
-	border: 1px solid silver;
+}
+.google {
+	padding: 10px;
 }
