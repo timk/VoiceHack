@@ -75,42 +75,43 @@ function parseCommand(text) {
 }
 
 function execute(command, data) {
-	switch (command) {
-		case "search":
-			search(data);
+	switch (command.substr(0, 3)) {
+		case "sea":
+			searchCommand(data);
 			break;
-		case "watch":
-			watch(data);
+		case "wat":
+			watchCommand(data);
 			break;
+		case "wea":
+			weatherCommand(data)
 		default:
 			displayText(command + " " + data);
 	}	
 }
 
-function search(str) {
-	stripped = str.replace(/for */, "");
-	name = stripped.substr(0, stripped.indexOf(' '));
-	val = stripped.substr(stripped.indexOf(' ') + 1);
+function searchCommand(str) {
+	var stripped = str.replace(/for */, "");
+	var name = stripped.substr(0, stripped.indexOf(' '));
+	var val = stripped.substr(stripped.indexOf(' ') + 1);
 	var url  = nameToUrl(name, val);
 	displayPage(url);
 }
 
-function watch(vidStr) {
+function watchCommand(vidStr) {
 	var url = nameToUrl("youtube", vidStr);
+	displayPage(url);
 }
 
 function nameToUrl(name, data) {
-	search = encodeURI(data);
-	switch (name.toLowerCase()) {
-		case "google":
+	switch (name.substr(0,3)toLowerCase()) {
+		case "goo":
 			//return "https://www.googleapis.com/customsearch/v1?q=" + search;
 			//return "http://googlecustomsearch.appspot.com/elementv2/compact_v2.html?q=" + search;
-			return "http://googlecustomsearch.appspot.com/elementv2/results-only_url_v2.html?q=" + search;
-		case "wiki":
-		case "wikipedia":
-			return "http://en.wikipedia.org/wiki/" + search;
-		case "youtube":
-			return "https://www.youtube.com/results?search_query=" + search
+			return "http://googlecustomsearch.appspot.com/elementv2/results-only_url_v2.html?q=" + data.replace(/ /g, "+");
+		case "wik":
+			return "http://en.wikipedia.org/wiki/" + data.replace(/ /g, "_");
+		case "you":
+			return "https://www.youtube.com/embed?listType=search&list=" + data.replace(/ /g, "+");
 		default:
 			//displayText("Try again...");
 			return "";
@@ -121,6 +122,7 @@ function displayPage(url) {
 	//window.location.href = 'http://www.google.com/search?site=&tbm=isch&q=' + text;
 	//var url = "https://www.googleapis.com/customsearch/v1?q="+text+"&searchType=image&key=";
 	//var url = "http://googlecustomsearch.appspot.com/elementv2/results-only_url_v2.html?q=" + text + "&webSearchResultSetSize=4";
+	
 	var display = document.getElementById("display");
 	display.setAttribute("src", url);
 };
