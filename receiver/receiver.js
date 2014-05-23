@@ -66,16 +66,42 @@ function handleMessage(message) {
 };
 
 function parseCommand(text) {
-	if(/search.*for.*/.test(text))
-	{
-		var arr = text.split(" ");
-		var url = nameToUrl(arr[1], arr[3]);
-		displayPage(url);
-	}
+	var idx = text.indexOf(' ');
+	var command = text.substr(0, idx);
+	var rest = text.substr(idx + 1);
+	
+	execute(command, rest);
+
 }
 
-function nameToUrl(name, search) {
-	switch (name) {
+function execute(command, data) {
+	switch (command) {
+		case "search":
+			search(data);
+			break;
+		case "watch":
+			watch(data);
+			break;
+		default:
+			displayText(command + " " + data);
+	}	
+}
+
+function search(str) {
+	stripped = str.replace(/for */, "");
+	name = stripped.substr(0, stripped.indexOf(' '));
+	val = stripped.substr(stripped.indexOf(' ') + 1);
+	var url  = nameToUrl(name, val);
+	displayPage(url);
+}
+
+function watch(vidStr) {
+	var url = nameToUrl("youtube", vidStr);
+}
+
+function nameToUrl(name, data) {
+	search = encodeURI(data);
+	switch (name.toLowerCase()) {
 		case "google":
 			//return "https://www.googleapis.com/customsearch/v1?q=" + search;
 			//return "http://googlecustomsearch.appspot.com/elementv2/compact_v2.html?q=" + search;
@@ -83,6 +109,8 @@ function nameToUrl(name, search) {
 		case "wiki":
 		case "wikipedia":
 			return "http://en.wikipedia.org/wiki/" + search;
+		case "youtube":
+			return "https://www.youtube.com/results?search_query=" + search
 		default:
 			//displayText("Try again...");
 			return "";
