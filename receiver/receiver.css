@@ -26,10 +26,9 @@ body {
 
 #frame {
 	width: 1240px;
-	height: 650px;
-	margin: 30px auto 0 auto;
+	height: 640px;
+	margin: 20px auto 0 auto;
 	overflow: auto;
-	background-color: #FFFFFF;
 }
 .list_title a {
 	font-weight: bold;
@@ -43,12 +42,15 @@ body {
 }
 
 #display {
-	width: 1210px;
-	height: 620px;
+	width: 1220px;
+	height: 590px;
 	margin: 0;
+	overflow: hidden;
+	background-color: #FFFFFF;
 }
 .iframe {
 	padding: 0;
+	border: none;
 }
 .google {
 	padding: 10px;
