@@ -90,14 +90,6 @@ public class MainActivity extends ActionBarActivity {
 				startVoiceRecognitionActivity();
 			}
 		});
-//		Button button1 = (Button) findViewById(R.id.button1);
-//		button1.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				startDiscoveryActivity();
-//				//launchReceiver();
-//			}
-//		});
 
 		// Configure Cast device discovery
 		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
@@ -106,17 +98,6 @@ public class MainActivity extends ActionBarActivity {
 						CastMediaControlIntent.categoryForCast(getResources()
 								.getString(R.string.app_id))).build();
 		mMediaRouterCallback = new MyMediaRouterCallback();
-	}
-	
-	private void startDiscoveryActivity()
-	{
-		// Configure Cast device discovery
-				mMediaRouter = MediaRouter.getInstance(getApplicationContext());
-				mMediaRouteSelector = new MediaRouteSelector.Builder()
-						.addControlCategory(
-								CastMediaControlIntent.categoryForCast(getResources()
-										.getString(R.string.app_id))).build();
-				mMediaRouterCallback = new MyMediaRouterCallback();
 	}
 
 	/**
@@ -144,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
 					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			if (matches.size() > 0) {
 				Log.d(TAG, matches.get(0));
-				sendMessage(matches.get(0));
+				sendMessage("{\"key\": \"search\", \"value\": \"" + matches.get(0) + "\"}");
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -339,7 +320,7 @@ public class MainActivity extends ActionBarActivity {
 
 												// set the initial instructions
 												// on the receiver
-												sendMessage(getString(R.string.instructions));
+												sendMessage("{\"key\": \"text\", \"value\": \"" + getString(R.string.instructions) + "\"}");
 											} else {
 												Log.e(TAG,
 														"application could not launch");

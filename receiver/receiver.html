@@ -80,8 +80,10 @@ limitations under the License.
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
           console.log('Message [' + event.senderId + ']: ' + event.data);
+          
           // display the message from the sender
-          displayText(event.data);
+          handleMessage(JSON.parse(event.data));
+          
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
           window.messageBus.send(event.senderId, event.data);
@@ -93,8 +95,25 @@ limitations under the License.
       };
       
       // utility function to display the text message in the input field
+      function handleMessage(message) {
+      	console.log(message);
+      	console.log("Message: " + message["key"]);
+
+      	 if(message.key == "search")
+      	 {
+      	 	searchGoogle(message.value);
+      	 }
+      	 else
+      	 {
+      	 	displayText(message.value);
+      	 }
+      };
+      
+      function searchGoogle(text) {
+     	 window.location.href='http://www.google.com/search?site=&tbm=isch&q=' + text;
+      };
+      
       function displayText(text) {
-      window.location.href='http://www.google.com/search?site=&tbm=isch&q=' + text;
         console.log(text);
         document.getElementById("message").innerHTML=text;
         window.castReceiverManager.setApplicationState(text);
