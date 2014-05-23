@@ -7,41 +7,49 @@ body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	background-color: #FFFFFF;
+	background-color: #000000;
 }
 
-div#title {
+#title {
 	margin: 10px 0;
 	font-size: 1.2em;
 	font-weight: bold;
-	color: #090909;
+	color: #FCFCFC;
 	text-align: center;
 }
 
-div#query {
+#query {
 	margin: 0 0 10px 0;
-	color: #090909;
+	color: #FCFCFC;
 	text-align: center;
 }
 
-div#frame {
-	width: 1220px;
-	height: 630px;
-	margin: 60px auto 0 auto;
+#frame {
+	width: 1240px;
+	height: 650px;
+	margin: 30px auto 0 auto;
 	overflow: auto;
+	background-color: #FFFFFF;
 }
 .list_title a {
 	font-weight: bold;
+}
+.list_title span {
+	color: #666666;
 }
 .list_snippet {
 	padding-bottom: 12px;
 	font-size: 0.9em;
 }
 
-iframe {
-	width: 1220px;
-	height: 660px;
+#display {
+	width: 1210px;
+	height: 620px;
 	margin: 0;
+}
+.iframe {
 	padding: 0;
-	border: 1px solid silver;
+}
+.google {
+	padding: 10px;
 }
