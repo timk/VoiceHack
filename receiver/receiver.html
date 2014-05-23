@@ -10,31 +10,10 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="receiver.js"></script>
 	<link rel="stylesheet" href="receiver.css" />
-	<script type="text/javascript">
-	var engine = "Google";
-	var query = "test";
-	var url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyBgIJy3VuroeXgk9isnO7Y0ZsgeiJp896o&cx=017576662512468239146:omuauf_lfve";
-	url += "&q=" + query;
-	$.get(url, function(data) {
-		console.log("Load was performed.");
-		//console.log(data.queries.request);
-		var output = "<div id=\"display\" class=\"google\">";
-		$.each(data.items, function(key, value) {
-			var mime = (value["mime"] == "application/pdf") ? "<span>[pdf]</span>" : "" ;
-			output += "<div class=\"list_title\"><a href=\"" + value['link'] + "\">" + value['title'] + "</a> " + mime + "</div>";
-			output += "<div class=\"list_snippet\">" + value['snippet'] + "</div>";
-		});
-		output += "</div>";
-		
-		$("#query").html(engine + ": " + query);
-		$("#frame").html(output);
-	});
-	</script>
 </head>
 <body>
 	<div id="title">Speak to me :)</div>
 	<div id="query"></div>
-	<!-- <div id="frame"><iframe id="display"></iframe></div> -->
-	<div id="frame"></iframe></div>
+	<div id="frame"></div>
 </body>
 </html>

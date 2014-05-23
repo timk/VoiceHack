@@ -74,15 +74,21 @@ function parseCommand(text) {
 
 }
 
+var command = "";
+var engine = "";
+
 function execute(command, data) {
 	switch (command.substr(0, 3)) {
 		case "sea":
+			command = "search";
 			searchCommand(data);
 			break;
 		case "wat":
+			command = "watch";
 			watchCommand(data);
 			break;
 		case "wea":
+			command = "weather";
 			weatherCommand(data)
 		default:
 			displayText(command + " " + data);
@@ -94,23 +100,26 @@ function searchCommand(str) {
 	var name = stripped.substr(0, stripped.indexOf(' '));
 	var val = stripped.substr(stripped.indexOf(' ') + 1);
 	var url  = nameToUrl(name, val);
-	displayPage(url);
+	displayPage(url, val);
 }
 
 function watchCommand(vidStr) {
 	var url = nameToUrl("youtube", vidStr);
-	displayPage(url);
+	displayPage(url, vidStr);
 }
 
 function nameToUrl(name, data) {
-	switch (name.substr(0,3)toLowerCase()) {
+	switch (name.substr(0,3).toLowerCase()) {
 		case "goo":
+			engine = "google";
 			//return "https://www.googleapis.com/customsearch/v1?q=" + search;
 			//return "http://googlecustomsearch.appspot.com/elementv2/compact_v2.html?q=" + search;
-			return "http://googlecustomsearch.appspot.com/elementv2/results-only_url_v2.html?q=" + data.replace(/ /g, "+");
+			return "https://www.googleapis.com/customsearch/v1?key=AIzaSyBgIJy3VuroeXgk9isnO7Y0ZsgeiJp896o&cx=017576662512468239146:omuauf_lfve&q=" + data.replace(/ /g, "+");
 		case "wik":
+			engine = "wikipedia";
 			return "http://en.wikipedia.org/wiki/" + data.replace(/ /g, "_");
 		case "you":
+			engine = "youtube";
 			return "https://www.youtube.com/embed?listType=search&list=" + data.replace(/ /g, "+");
 		default:
 			//displayText("Try again...");
@@ -118,13 +127,32 @@ function nameToUrl(name, data) {
 	}
 };
 
-function displayPage(url) {
+function displayPage(url, query) {
 	//window.location.href = 'http://www.google.com/search?site=&tbm=isch&q=' + text;
 	//var url = "https://www.googleapis.com/customsearch/v1?q="+text+"&searchType=image&key=";
 	//var url = "http://googlecustomsearch.appspot.com/elementv2/results-only_url_v2.html?q=" + text + "&webSearchResultSetSize=4";
 	
-	var display = document.getElementById("display");
-	display.setAttribute("src", url);
+	if(engine == "google")
+	{
+		$.get(url, function(data) {
+			console.log("Load was performed.");
+			//console.log(data.queries.request);
+			var output = "<div id=\"display\" class=\"google\">";
+			$.each(data.items, function(key, value) {
+				var mime = (value["mime"] == "application/pdf") ? "<span>[pdf]</span>" : "" ;
+				output += "<div class=\"list_title\"><a href=\"" + value['link'] + "\">" + value['title'] + "</a> " + mime + "</div>";
+				output += "<div class=\"list_snippet\">" + value['snippet'] + "</div>";
+			});
+			output += "</div>";
+			
+			$("#query").html(engine + ": " + query);
+			$("#frame").html(output);
+		});	}
+	else
+	{
+		$("#query").html(engine + ": " + query);
+		$("#frame").html("<iframe id=\"display\" class=\"iframe\" src=\"" + url + "\"></iframe>");
+	}
 };
 
 function displayText(text) {
